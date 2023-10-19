@@ -7,18 +7,23 @@ package EDD;
 /**
  *
  * @author jonathanpizzurro
- * @param <t>
  */
-public class Nodo <t> {
+public class Nodo {
     
-    private Nodo pNext;
-    private Nodo pPrev;
-    private t dato;
+    String user;
+    Nodo pNext;
 
-    public Nodo(Nodo pNext, Nodo pPrev, t dato) {
-        this.pNext = pNext;
-        this.pPrev = pPrev;
-        this.dato = dato;
+    public Nodo(String user) {
+        this.user = user;
+        this.pNext = null;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public Nodo getpNext() {
@@ -29,22 +34,5 @@ public class Nodo <t> {
         this.pNext = pNext;
     }
 
-    public Nodo getpPrev() {
-        return pPrev;
-    }
-
-    public void setpPrev(Nodo pPrev) {
-        this.pPrev = pPrev;
-    }
-
-    public t getDato() {
-        return dato;
-    }
-
-    public void setDato(t dato) {
-        this.dato = dato;
-    }
-    
-    
     
 }

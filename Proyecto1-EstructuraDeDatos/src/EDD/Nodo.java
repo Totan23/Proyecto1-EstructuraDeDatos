@@ -5,31 +5,52 @@
 package EDD;
 
 /**
- *
+ * Clase que corresponde a los nodos
  * @author jonathanpizzurro
  */
 public class Nodo {
     
-    String user;
-    Nodo pNext;
+   public String user;
+   public Nodo pNext;
 
+    /**
+     *
+     * @param user
+     */
     public Nodo(String user) {
         this.user = user;
         this.pNext = null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUser() {
         return user;
+        
     }
 
+    /**
+     *
+     * @param user
+     */
     public void setUser(String user) {
         this.user = user;
     }
 
+    /**
+     *
+     * @return
+     */
     public Nodo getpNext() {
         return pNext;
     }
 
+    /**
+     *
+     * @param pNext
+     */
     public void setpNext(Nodo pNext) {
         this.pNext = pNext;
     }

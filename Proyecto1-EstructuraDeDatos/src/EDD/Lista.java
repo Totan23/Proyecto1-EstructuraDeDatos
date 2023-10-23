@@ -9,6 +9,10 @@ package EDD;
  * @author jonathanpizzurro
  */
 public class Lista {
+
+    public static boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     public Nodo pFirst;
     int tamano;
 
@@ -46,7 +50,7 @@ public class Lista {
        
                 tamano ++;
     }
-    }
+   }
        
     public void insertar_final(Nodo n){
         

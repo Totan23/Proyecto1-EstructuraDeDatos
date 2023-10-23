@@ -3,12 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package FileManagement;
+
+import EDD.Lista;
+import EDD.Nodo;
+import Grafos.Grafo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -72,23 +78,61 @@ public class subirArchivo extends javax.swing.JFrame {
             // Crear un StringBuilder para almacenar el contenido del archivo
             StringBuilder contenido = new StringBuilder();
 
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            List<Lista> arrayListDeListas = new ArrayList<>();
+            List<String> arrayListDeListasRelaciones = new ArrayList<>();
+            boolean comprobacion = false;
+//            String usuario1 = null;
+//            String usuario2 = null;
+
+            try ( BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
                 String linea;
-                while ((linea = br.readLine()) != null) {
-                    contenido.append(linea).append("\n");
+                while ((linea = lector.readLine()) != null) {
+                    if (linea.equals("usuarios")) {
+                        linea = lector.readLine();
+                        comprobacion = true;
+                    } else if (linea.equals("relaciones")) {
+                        comprobacion = false;
+                    }
+                    if (comprobacion) {
+                        String[] lineArray = linea.split(",");
+                        String usuario1 = lineArray[0];
+                        Nodo nodo = new Nodo(usuario1);
+                        Lista lista = new Lista();
+
+                        if (arrayListDeListas.isEmpty()) {
+                            lista.insertar_inicio(nodo);
+                        } else {
+                            lista.insertar_final(nodo);
+                        }
+                        arrayListDeListas.add(lista);
+
+                    } else {
+                        linea = lector.readLine();
+                        arrayListDeListasRelaciones.add(linea);
+
+                    }
+
                 }
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + ex.getMessage());
-                return;
+            } catch (IOException e) {
+                System.out.println("Error al leer los usuarios del archivo: " + e.getMessage());
             }
 
-            JOptionPane.showMessageDialog(this, contenido.toString());
-        } 
+            Lista[] arrayDeListas = arrayListDeListas.toArray(new Lista[0]);
+            Grafo grafo = new Grafo(arrayDeListas, arrayDeListas.length);
+            for (String linea : arrayListDeListasRelaciones) {
+                String[] lineArray = linea.split(",");
+                if (lineArray.length >= 2) { // Verificar si la línea tiene al menos dos elementos
+                    String usuario1 = lineArray[0].trim();
+                    String usuario2 = lineArray[1].trim();
+                    // Luego, puedes utilizar estos valores para realizar alguna operación
+                    grafo.insertar_relacion(usuario1, usuario2);
+                }
+            }
+            grafo.imprimir();
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    
-    
     /**
      * @param args the command line arguments
      */

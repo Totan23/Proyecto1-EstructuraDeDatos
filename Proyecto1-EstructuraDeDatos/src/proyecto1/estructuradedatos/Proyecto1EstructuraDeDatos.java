@@ -29,10 +29,12 @@ public class Proyecto1EstructuraDeDatos {
 
         /* Crea y muestra el formulario */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new subirArchivo().setVisible(true);
             }
         });
     }
+    
     
 }

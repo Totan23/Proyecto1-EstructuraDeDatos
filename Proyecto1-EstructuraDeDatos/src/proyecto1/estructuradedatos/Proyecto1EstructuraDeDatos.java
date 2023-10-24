@@ -4,6 +4,18 @@
  */
 package proyecto1.estructuradedatos;
 import FileManagement.subirArchivo;
+import Grafos.Grafo;
+import EDD.Lista;
+import EDD.Nodo;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
@@ -14,6 +26,8 @@ public class Proyecto1EstructuraDeDatos {
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
         /* Establece el estilo de la interfaz según el sistema operativo */
         try {
@@ -34,6 +48,17 @@ public class Proyecto1EstructuraDeDatos {
                 new subirArchivo().setVisible(true);
             }
         });
+        Grafo g = new Grafo(3);
+        Nodo n = new Nodo("AR");
+        Nodo m = new Nodo("uyf");
+        Nodo e = new Nodo("gr");
+        g.insertar_users(m);
+        g.insertar_users(n);
+        g.insertar_users(e);
+        g.insertar_relacion(n.user,m.user);
+        g.insertar_relacion(n.user,e.user);
+        g.insertar_relacion(e.user,m.user);  
+        g.graficar_grafo();
     }
     
     

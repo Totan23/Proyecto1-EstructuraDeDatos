@@ -128,7 +128,7 @@ public class subirArchivo extends javax.swing.JFrame {
                     grafo.insertar_relacion(usuario1, usuario2);
                 }
             }
-            grafo.imprimir();
+         //   grafo.imprimir();
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed

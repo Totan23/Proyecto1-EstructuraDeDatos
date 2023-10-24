@@ -6,6 +6,10 @@ package Grafos;
 
 import EDD.Lista;
 import EDD.Nodo;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 /**
  *
@@ -117,4 +121,62 @@ public class Grafo {
 
     }
 
+    public void dfs(int index, boolean[] visited, int[] order, int[] indexOrder) {
+
+        visited[index] = true;
+        Nodo node = users[index].getpFirst().getpNext(); // Obtiene el primer nodo de la lista de adyacencia
+        while (node != null) {
+            int idx = getUserIndex(node.getUser()); // Función adicional para obtener el índice del usuario/nodo
+            if (idx != -1 && !visited[idx]) {
+                dfs(idx, visited, order, indexOrder);
+            }
+            node = node.getpNext();
+        }
+
+        order[indexOrder[0]] = index;
+        indexOrder[0] += 1; // incrementa el contador
+    }
+
+    public int getUserIndex(String user) {  // Función adicional para obtener el índice de un usuario en el grafo
+        for (int i = 0; i < max_users; i++) {
+            if (users[i].getpFirst().getUser().equals(user)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void encontrarSCCs() {
+        int[] order = new int[max_users];
+        int[] indexOrder = {0}; // Se usa un array para modificar el valor dentro del método dfs
+        boolean[] visited = new boolean[max_users];
+        // Paso 1: Realizar DFS y almacenar los nodos en el arreglo 'order'
+        for (int i = 0; i < max_users; i++) {
+            if (users[i] != null && !visited[i]) {
+                dfs(i, visited, order, indexOrder);
+            }
+        }
+
+    }
+
+    public void graficar_grafo() {                         //Copiar nuestro grafo y convertirlo en el grafo de la libreria
+        Graph grafo = new SingleGraph("mi grafo");     //Creas el grafo de la libreria
+        grafo.setAttribute("ui.stylesheet","node {shape:circle; fill-color:#ADD8E6; text-color: #000000; size: 30px;} edge{size: 2px; shape: line; fill-color: #D3D3D3;}");
+        for (int i = 0; i < max_users; i++) {                 //Recorremos los usuarios del grafo y los agregamos al nuevo grafo(el de la libreria)
+            String user = this.users[i].pFirst.getUser();    //Por cada usuario agarramos su nombre y creamos un nodo
+            Node usuario = grafo.addNode(user);
+            usuario.setAttribute("ui.label", user); //Le inserta el nombre del usuario al nodo
+        }
+        for (int i = 0; i < max_users; i++) {                 //Recorre las relaciones
+            String user = this.users[i].pFirst.getUser();   //
+            Nodo aux = this.users[i].pFirst.getpNext();
+            while (aux != null) {
+                grafo.addEdge(user + "-" + aux.getUser(), this.users[i].pFirst.getUser(), aux.getUser());
+                aux = aux.getpNext();
+            }
+        }
+        System.setProperty("org.graphstream.ui", "org.graphstream.ui.swing");
+        Viewer viewer = grafo.display();         //Llamamos a la funcion display, crea la ventana y lo grafica
+    }
+    
 }

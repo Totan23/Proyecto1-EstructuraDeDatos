@@ -8,11 +8,8 @@ package EDD;
  *
  * @author jonathanpizzurro
  */
-public class Lista {
+public class Lista <T>{
 
-    public static boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     public Nodo pFirst;
     int tamano;
 
@@ -52,8 +49,8 @@ public class Lista {
     }
    }
        
-    public void insertar_final(Nodo n){
-        
+    public void insertar_final(T data){
+        Nodo n = new Nodo(data);
         if (pFirst == null){
         pFirst = n ;
         
@@ -101,6 +98,27 @@ public class Lista {
         return aux;
     }
     
+    public boolean isEmpty(){
+        return pFirst == null;
+        
+    }
+    public T get(int indice){
+       if (isEmpty()){
+           return null;
+       }
+       else{
+           Nodo pointer = pFirst;
+           for (int i = 0; i < indice; i++) {
+               pointer = pointer.getpNext();
+               
+             
+           }
+           return (T) pointer.getUser();
+           
+           
+           
+       }
+   }
     
     public void imprimir(){
         

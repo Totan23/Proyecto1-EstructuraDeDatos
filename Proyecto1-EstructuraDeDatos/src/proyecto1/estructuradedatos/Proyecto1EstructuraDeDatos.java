@@ -48,18 +48,8 @@ public class Proyecto1EstructuraDeDatos {
                 new subirArchivo().setVisible(true);
             }
         });
-        Grafo g = new Grafo(3);
-        Nodo n = new Nodo("AR");
-        Nodo m = new Nodo("uyf");
-        Nodo e = new Nodo("gr");
-        g.insertar_users(m);
-        g.insertar_users(n);
-        g.insertar_users(e);
-        g.insertar_relacion(n.user,m.user);
-        g.insertar_relacion(n.user,e.user);
-        g.insertar_relacion(e.user,m.user);  
-        g.graficar_grafo();
+
+    
+    
     }
-    
-    
 }

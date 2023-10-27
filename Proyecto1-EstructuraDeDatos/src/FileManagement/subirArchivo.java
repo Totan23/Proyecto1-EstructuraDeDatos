@@ -13,9 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author jonathanpizzurro
@@ -75,61 +72,39 @@ public class subirArchivo extends javax.swing.JFrame {
         int selection = fileChooser.showOpenDialog(this);
         if (selection == JFileChooser.APPROVE_OPTION) {
             File archivo = fileChooser.getSelectedFile();
-            // Crear un StringBuilder para almacenar el contenido del archivo
-            StringBuilder contenido = new StringBuilder();
 
-            List<Lista> arrayListDeListas = new ArrayList<>();
-            List<String> arrayListDeListasRelaciones = new ArrayList<>();
+            Grafo grafo = new Grafo();
             boolean comprobacion = false;
-//            String usuario1 = null;
-//            String usuario2 = null;
 
             try ( BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
                 String linea;
                 while ((linea = lector.readLine()) != null) {
                     if (linea.equals("usuarios")) {
-                        linea = lector.readLine();
                         comprobacion = true;
-                    } else if (linea.equals("relaciones")) {
+                        continue;
+                    }
+                    if (linea.equals("relaciones")) {
                         comprobacion = false;
+                        continue;
                     }
                     if (comprobacion) {
-                        String[] lineArray = linea.split(",");
-                        String usuario1 = lineArray[0];
-                        Nodo nodo = new Nodo(usuario1);
-                        Lista lista = new Lista();
-
-                        if (arrayListDeListas.isEmpty()) {
-                            lista.insertar_inicio(nodo);
-                        } else {
-                            lista.insertar_final(nodo);
-                        }
-                        arrayListDeListas.add(lista);
-
+                        String usuario = linea.split(",")[0].trim(); 
+                        grafo.agregarVertice(usuario); 
                     } else {
-                        linea = lector.readLine();
-                        arrayListDeListasRelaciones.add(linea);
-
+                        String[] relacion = linea.split(",");
+                        if (relacion.length >= 2) {
+                            String usuario1 = relacion[0].trim();
+                            String usuario2 = relacion[1].trim();
+                            grafo.agregaRelacion(usuario1, usuario2);
+                        }
                     }
-
                 }
             } catch (IOException e) {
-                System.out.println("Error al leer los usuarios del archivo: " + e.getMessage());
+                System.out.println("Error al leer el archivo: " + e.getMessage());
             }
 
-            Lista[] arrayDeListas = arrayListDeListas.toArray(new Lista[0]);
-            Grafo grafo = new Grafo(arrayDeListas, arrayDeListas.length);
-            for (String linea : arrayListDeListasRelaciones) {
-                String[] lineArray = linea.split(",");
-                if (lineArray.length >= 2) { // Verificar si la línea tiene al menos dos elementos
-                    String usuario1 = lineArray[0].trim();
-                    String usuario2 = lineArray[1].trim();
-                    // Luego, puedes utilizar estos valores para realizar alguna operación
-                    grafo.insertar_relacion(usuario1, usuario2);
-                }
-            }
-         //   grafo.imprimir();
-
+            grafo.imprimir();
+            grafo.graficar(grafo);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

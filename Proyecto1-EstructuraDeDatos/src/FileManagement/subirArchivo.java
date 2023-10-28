@@ -105,6 +105,7 @@ public class subirArchivo extends javax.swing.JFrame {
 
             grafo.imprimir();
             grafo.graficar(grafo);
+   //         grafo.componentesFuertementeConectados();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

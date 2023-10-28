@@ -64,12 +64,15 @@ public class Pila<T> {
         if (isEmpty()) {
             System.out.println("Error: pila vacia");
             return null;
-        } else {
-            T dato = (T) top.getUser();
-            Nodo newTop = top.getpNext();
-            top.setpNext(null);
-            top = newTop;
-            return dato;
         }
+
+        T dato = (T) top.getUser();
+        top = top.getpNext();
+
+        if (top == null) {
+            buttom = null;
+        }
+        size--;
+        return dato;
     }
 }

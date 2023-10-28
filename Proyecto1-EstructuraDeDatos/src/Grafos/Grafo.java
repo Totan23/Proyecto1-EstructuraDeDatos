@@ -6,6 +6,7 @@ package Grafos;
 
 import EDD.Lista;
 import EDD.Nodo;
+import EDD.Pila;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -136,7 +137,7 @@ public class Grafo {
         // Si todo está en orden, agrega la relación.
         Relacion edge = new Relacion(Vertice1, Vertice2);
         ListaDeAdyacencia.insertar_final(edge);
-        System.out.println("Relacion agregada de manera correcta");
+//        System.out.println("Relacion agregada de manera correcta");
     }
 
     public boolean isEdge(String Vertice1, String Vertice2) {
@@ -182,10 +183,9 @@ public class Grafo {
             System.out.println(result);
         }
     }
-    
+
     public void graficar(Grafo grafo) {
         System.setProperty("org.graphstream.ui", "org.graphstream.ui.swing.util.Display");
-
 
         Graph g = new MultiGraph("grafo");         // Crear un nuevo grafo
 
@@ -233,7 +233,6 @@ public class Grafo {
         layout.setStabilizationLimit(0.9);  // Cambia para ajustar el límite de estabilización
 
         layout.compute();
-
 
         Viewer viewer = g.display(); // Mostrar el grafo 
 

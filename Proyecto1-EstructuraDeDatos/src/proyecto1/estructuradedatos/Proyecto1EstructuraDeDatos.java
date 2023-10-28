@@ -7,6 +7,7 @@ import FileManagement.subirArchivo;
 import Grafos.Grafo;
 import EDD.Lista;
 import EDD.Nodo;
+import Interfaces.practica;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,24 +31,25 @@ public class Proyecto1EstructuraDeDatos {
     
     public static void main(String args[]) {
         /* Establece el estilo de la interfaz según el sistema operativo */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(subirArchivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        /* Crea y muestra el formulario */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new subirArchivo().setVisible(true);
-            }
-        });
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception ex) {
+//            java.util.logging.Logger.getLogger(subirArchivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//
+//        /* Crea y muestra el formulario */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new subirArchivo().setVisible(true);
+//            }
+//        });
+practica p = new practica();
 
     
     

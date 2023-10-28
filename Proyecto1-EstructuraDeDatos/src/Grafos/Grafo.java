@@ -158,30 +158,32 @@ public class Grafo {
         return false;
     }
 
-    public void imprimir() {
+    public String imprimir() {
+        String cadena = "";
         if (isEmpty()) {
             System.out.println("El grafo está vacío.");
-        }
+        }else{
+            
+        cadena += "usuarios\n";
 
         for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+                Vertice vertex = (Vertice) ListaDeVertices.get(i);
+                cadena += vertex.getNombre() + "\n";}
+        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
             Vertice vertex = (Vertice) ListaDeVertices.get(i);
-            String result = "El usuario " + vertex.getNombre() + " sigue a ";
+            
 
             boolean hasEdges = false;
+            cadena += "relaciones\n";
             for (int j = 0; j < ListaDeAdyacencia.getTamano(); j++) {
                 Relacion edge = (Relacion) ListaDeAdyacencia.get(j);
                 if (edge.getVerticeA().equals(vertex.getNombre())) {
-                    result += edge.getVerticeB() + " ";
+                    cadena += vertex.getNombre()+ ", " + edge.getVerticeB() + "\n";
                     hasEdges = true;
                 }
             }
-
-            if (!hasEdges) {
-                result = "El usuario " + vertex.getNombre() + " no sigue a nadie.";
-            }
-
-            System.out.println(result);
-        }
+        }}
+        return cadena;
     }
 
     public void graficar(Grafo grafo) {

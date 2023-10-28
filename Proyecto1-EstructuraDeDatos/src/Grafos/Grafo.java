@@ -162,27 +162,28 @@ public class Grafo {
         String cadena = "";
         if (isEmpty()) {
             System.out.println("El grafo está vacío.");
-        }else{
-            
-        cadena += "usuarios\n";
+        } else {
 
-        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+            cadena += "usuarios\n";
+
+            for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
                 Vertice vertex = (Vertice) ListaDeVertices.get(i);
-                cadena += vertex.getNombre() + "\n";}
-        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
-            Vertice vertex = (Vertice) ListaDeVertices.get(i);
-            
+                cadena += vertex.getNombre() + "\n";
+            }
+            for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+                Vertice vertex = (Vertice) ListaDeVertices.get(i);
 
-            boolean hasEdges = false;
-            cadena += "relaciones\n";
-            for (int j = 0; j < ListaDeAdyacencia.getTamano(); j++) {
-                Relacion edge = (Relacion) ListaDeAdyacencia.get(j);
-                if (edge.getVerticeA().equals(vertex.getNombre())) {
-                    cadena += vertex.getNombre()+ ", " + edge.getVerticeB() + "\n";
-                    hasEdges = true;
+                boolean hasEdges = false;
+                cadena += "relaciones\n";
+                for (int j = 0; j < ListaDeAdyacencia.getTamano(); j++) {
+                    Relacion edge = (Relacion) ListaDeAdyacencia.get(j);
+                    if (edge.getVerticeA().equals(vertex.getNombre())) {
+                        cadena += vertex.getNombre() + ", " + edge.getVerticeB() + "\n";
+                        hasEdges = true;
+                    }
                 }
             }
-        }}
+        }
         return cadena;
     }
 
@@ -208,6 +209,7 @@ public class Grafo {
                 + "edge {"
                 + "   fill-color: black;"
                 + "   size: 4px;"
+                + "   arrow-size: 15px, 10px;" // Esta línea define el tamaño de las flechas
                 + "}";
 
         g.setAttribute("ui.stylesheet", stylesheet);
@@ -226,7 +228,8 @@ public class Grafo {
             String verticeB = relacion.getVerticeB();
 
             if (g.getNode(verticeA) != null && g.getNode(verticeB) != null) {
-                g.addEdge(verticeA + "-" + verticeB, verticeA, verticeB);
+                g.addEdge(verticeA + "-" + verticeB, verticeA, verticeB, true);
+
             }
         }
         SpringBox layout = new SpringBox();
@@ -238,5 +241,87 @@ public class Grafo {
 
         Viewer viewer = g.display(); // Mostrar el grafo 
 
+    }
+
+    private Lista<Vertice> DFS(Vertice v, Lista<Vertice> visitados) {
+        visitados.insertar_final(v);
+        for (int i = 0; i < ListaDeAdyacencia.getTamano(); i++) {
+            Relacion edge = (Relacion) ListaDeAdyacencia.get(i);
+            if (edge.getVerticeA().equals(v.getNombre())) {
+                Vertice adjVertex = (Vertice) buscarVertice(edge.getVerticeB());
+                if (!contieneVertice(visitados, adjVertex)) {
+                    DFS(adjVertex, visitados);
+                }
+            }
+        }
+        return visitados;
+    }
+
+    // Método que verifica si una lista de vértices contiene un vértice específico
+    private boolean contieneVertice(Lista<Vertice> lista, Vertice v) {
+        for (int i = 0; i < lista.getTamano(); i++) {
+            if (lista.get(i).equals(v)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Método que busca y devuelve un vértice por nombre
+    private Vertice buscarVertice(String nombre) {
+        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+            Vertice v = (Vertice) ListaDeVertices.get(i);
+            if (v.getNombre().equals(nombre)) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    // Método para invertir el grafo
+    private Grafo getGrafoInvertido() {
+        Grafo gInv = new Grafo();
+        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+            gInv.agregarVertice(((Vertice) ListaDeVertices.get(i)).getNombre());
+        }
+        for (int i = 0; i < ListaDeAdyacencia.getTamano(); i++) {
+            Relacion edge = (Relacion) ListaDeAdyacencia.get(i);
+            gInv.agregaRelacion(edge.getVerticeB(), edge.getVerticeA());
+        }
+        return gInv;
+    }
+
+    // Función principal que encuentra componentes fuertemente conectados usando el algoritmo de Kosaraju
+    public void componentesFuertementeConectados() {
+        Pila<Vertice> stack = new Pila<>(null, null, 0);
+        Lista<Vertice> visitados = new Lista<>();
+
+        // Primera fase: DFS en el grafo original
+        for (int i = 0; i < ListaDeVertices.getTamano(); i++) {
+            Vertice v = (Vertice) ListaDeVertices.get(i);
+            if (!contieneVertice(visitados, v)) {
+                DFS(v, visitados);
+                stack.push(v);
+            }
+        }
+
+        Grafo grafoInvertido = getGrafoInvertido();
+        visitados = new Lista<>();
+
+        // Segunda fase: DFS en el grafo invertido
+        while (stack.getSize() > 0) {
+            Vertice v = stack.pop();
+            if (v != null && !contieneVertice(visitados, v)) {
+                System.out.println("Componente fuertemente conectado:");
+                Lista<Vertice> component = grafoInvertido.DFS(v, new Lista<>());
+
+                for (int i = 0; i < component.getTamano(); i++) {
+                    Vertice vertex = component.get(i);
+                    System.out.print(vertex.getNombre() + " ");
+                }
+
+                System.out.println("\n");
+            }
+        }
     }
 }

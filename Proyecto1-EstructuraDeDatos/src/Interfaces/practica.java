@@ -6,10 +6,14 @@
 package Interfaces;
 
 import Grafos.Grafo;
+import Grafos.Relacion;
+import Grafos.Vertice;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 
 /**
@@ -17,8 +21,9 @@ import javax.swing.JFileChooser;
  * @author guzzo
  */
 public class practica extends javax.swing.JFrame {
+
     Grafo graph;
-    
+
     /**
      * Creates new form practica
      */
@@ -73,6 +78,12 @@ public class practica extends javax.swing.JFrame {
             }
         });
         jPanel1.add(eliminar_rela, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 500, 120, -1));
+
+        usuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuario1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 250, -1));
         jPanel1.add(usuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 170, -1));
 
@@ -123,16 +134,38 @@ public class practica extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void escribirEnArchivo(Grafo grafo, String nombreArchivo) {
+        try ( PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
+            // Escribir la lista de usuarios (vertices)
+            writer.println("usuarios");
+            for (int n = 0; n < grafo.getListaDeVertices().getTamano(); n++) {
+                Vertice vertice = (Vertice) grafo.getListaDeVertices().get(n);
+                writer.println(vertice.getNombre());
+            }
+
+            // Escribir las relaciones
+            writer.println("relaciones");
+            for (int n = 0; n < grafo.getListaDeAdyacencia().getTamano(); n++) {
+                Relacion relacion = (Relacion) grafo.getListaDeAdyacencia().get(n);
+                writer.println(relacion.getVerticeA() + ", " + relacion.getVerticeB());
+            }
+
+            System.out.println("Archivo " + nombreArchivo + " creado exitosamente.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+
     private void graficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graficarActionPerformed
         // TODO add your handling code here:
         graph.graficar(graph);
-        
+
     }//GEN-LAST:event_graficarActionPerformed
 
     private void añadir_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_usuario1ActionPerformed
         // TODO add your handling code here:
-        if (!usuario.getText().contains("@")){
-            usuario.setText("@"+usuario.getText());
+        if (!usuario.getText().contains("@")) {
+            usuario.setText("@" + usuario.getText());
         }
         graph.agregarVertice(usuario.getText());
         datos.setText(graph.imprimir());
@@ -140,35 +173,37 @@ public class practica extends javax.swing.JFrame {
 
     private void eliminar_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_usuario1ActionPerformed
         // TODO add your handling code here:
-        if (!usuario.getText().contains("@")){
-            usuario.setText("@"+usuario.getText());
+        if (!usuario.getText().contains("@")) {
+            usuario.setText("@" + usuario.getText());
         }
         graph.eliminarVertice(usuario.getText());
-        datos.setText(graph.imprimir());
+//        datos.setText(graph.imprimir());
 
     }//GEN-LAST:event_eliminar_usuario1ActionPerformed
 
     private void añadir_relaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_relaActionPerformed
         // TODO add your handling code here:
-        if (!usuario2.getText().contains("@")){
-            usuario2.setText("@"+usuario2.getText());
-        }if (!usuario1.getText().contains("@")){
-            usuario1.setText("@"+usuario1.getText());
+        if (!usuario2.getText().contains("@")) {
+            usuario2.setText("@" + usuario2.getText());
+        }
+        if (!usuario1.getText().contains("@")) {
+            usuario1.setText("@" + usuario1.getText());
         }
         graph.agregaRelacion(usuario2.getText(), usuario1.getText());
-        datos.setText(graph.imprimir());
+//        datos.setText(graph.imprimir());
 
     }//GEN-LAST:event_añadir_relaActionPerformed
 
     private void eliminar_relaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_relaActionPerformed
         // TODO add your handling code here:
-        if (!usuario2.getText().contains("@")){
-            usuario2.setText("@"+usuario2.getText());
-        }if (!usuario1.getText().contains("@")){
-            usuario1.setText("@"+usuario1.getText());
+        if (!usuario2.getText().contains("@")) {
+            usuario2.setText("@" + usuario2.getText());
+        }
+        if (!usuario1.getText().contains("@")) {
+            usuario1.setText("@" + usuario1.getText());
         }
         graph.eliminarRelacion(usuario2.getText(), usuario1.getText());
-        datos.setText(graph.imprimir());
+//        datos.setText(graph.imprimir());
 
     }//GEN-LAST:event_eliminar_relaActionPerformed
 
@@ -194,8 +229,8 @@ public class practica extends javax.swing.JFrame {
                         continue;
                     }
                     if (comprobacion) {
-                        String usuario = linea.split(",")[0].trim(); 
-                        grafo.agregarVertice(usuario); 
+                        String usuario = linea.split(",")[0].trim();
+                        grafo.agregarVertice(usuario);
                     } else {
                         String[] relacion = linea.split(",");
                         if (relacion.length >= 2) {
@@ -208,8 +243,13 @@ public class practica extends javax.swing.JFrame {
                 graph = grafo;
             } catch (IOException e) {
                 System.out.println("Error al leer el archivo: " + e.getMessage());
-            }}
+            }
+        }
     }//GEN-LAST:event_Buscar1ActionPerformed
+
+    private void usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usuario1ActionPerformed
 
     /**
      * @param args the command line arguments

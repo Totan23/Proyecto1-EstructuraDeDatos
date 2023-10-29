@@ -102,9 +102,6 @@ public class subirArchivo extends javax.swing.JFrame {
             } catch (IOException e) {
                 System.out.println("Error al leer el archivo: " + e.getMessage());
             }
-
-            grafo.imprimir();
-            grafo.graficar(grafo);
    //         grafo.componentesFuertementeConectados();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

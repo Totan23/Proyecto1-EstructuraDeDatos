@@ -166,51 +166,62 @@ public class practica extends javax.swing.JFrame {
     private void añadir_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_usuario1ActionPerformed
         // TODO add your handling code here:
         String user = usuario.getText();
-        if (!usuario.getText().contains("@")) {
+        if (user.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar un usuario sin nombre", "Alerta", JOptionPane.WARNING_MESSAGE);
+        } else if (!usuario.getText().contains("@")) {
             this.usuario.setText("@" + user);
             user = "@" + user;
+            graph.agregarVertice(usuario.getText());
+            datos.setText(graph.imprimir());
+            escribirEnArchivo(graph, "Archivo.txt");
         }
-        graph.agregarVertice(usuario.getText());
-        datos.setText(graph.imprimir());
-        escribirEnArchivo(graph, "ejemplo.txt");
+
     }//GEN-LAST:event_añadir_usuario1ActionPerformed
 
     private void eliminar_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_usuario1ActionPerformed
         // TODO add your handling code here:
-        if (!usuario.getText().contains("@")) {
+        String user = usuario.getText();
+        if (user.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede eliminar un usuario sin nombre", "Alerta", JOptionPane.WARNING_MESSAGE);
+        } else if (!usuario.getText().contains("@")) {
             usuario.setText("@" + usuario.getText());
+            graph.eliminarVertice(usuario.getText());
+            datos.setText(graph.imprimir());
+            escribirEnArchivo(graph, "Archivo.txt");
         }
-        graph.eliminarVertice(usuario.getText());
-        datos.setText(graph.imprimir());
-        escribirEnArchivo(graph,"ejemplo.txt");
     }//GEN-LAST:event_eliminar_usuario1ActionPerformed
 
     private void añadir_relaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_relaActionPerformed
         // TODO add your handling code here:
-        if (!usuario2.getText().contains("@")) {
-            usuario2.setText("@" + usuario2.getText());
-        }
-        if (!usuario1.getText().contains("@")) {
-            usuario1.setText("@" + usuario1.getText());
-        }
-        graph.agregaRelacion(usuario2.getText(), usuario1.getText());
-        datos.setText(graph.imprimir());
-        escribirEnArchivo(graph, "ejemplo.txt");
+        if (usuario2.getText().isEmpty() || usuario1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar la relacion debido a que uno o ambos de los espacios esta vacio. ", "Alerta", JOptionPane.WARNING_MESSAGE);
 
+        } else if (usuario2.getText().equals(usuario1.getText())) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar la relacion debido a que los usuarios tienen el mismo nombre ", "Alerta", JOptionPane.WARNING_MESSAGE);
+
+        } else if (!usuario2.getText().contains("@") && !usuario1.getText().contains("@")) {
+            usuario2.setText("@" + usuario2.getText());
+            usuario1.setText("@" + usuario1.getText());
+
+        } else {
+            graph.agregaRelacion(usuario2.getText(), usuario1.getText());
+            datos.setText(graph.imprimir());
+            escribirEnArchivo(graph, "Archivo.txt");
+        }
     }//GEN-LAST:event_añadir_relaActionPerformed
 
     private void eliminar_relaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_relaActionPerformed
         // TODO add your handling code here:
-        if (!usuario2.getText().contains("@")) {
-            usuario2.setText("@" + usuario2.getText());
-        }
-        if (!usuario1.getText().contains("@")) {
-            usuario1.setText("@" + usuario1.getText());
-        }
-        graph.eliminarRelacion(usuario2.getText(), usuario1.getText());
-        datos.setText(graph.imprimir());
-        escribirEnArchivo(graph, "ejemplo.txt");
+        if (usuario2.getText().isEmpty() || usuario1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar la relacion debido a que uno o ambos de los espacios esta vacio. ", "Alerta", JOptionPane.WARNING_MESSAGE);
 
+        } else if (!usuario2.getText().contains("@") && !usuario1.getText().contains("@")) {
+            usuario2.setText("@" + usuario2.getText());
+            usuario1.setText("@" + usuario1.getText());
+            graph.agregaRelacion(usuario2.getText(), usuario1.getText());
+            datos.setText(graph.imprimir());
+            escribirEnArchivo(graph, "Archivo.txt");
+        }
     }//GEN-LAST:event_eliminar_relaActionPerformed
 
     private void Buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar1ActionPerformed
@@ -251,6 +262,7 @@ public class practica extends javax.swing.JFrame {
             } catch (IOException e) {
                 System.out.println("Error al leer el archivo: " + e.getMessage());
             }
+            //        grafo.componentesFuertementeConectados();
         }
     }//GEN-LAST:event_Buscar1ActionPerformed
 

@@ -1,10 +1,10 @@
+package Interfaces;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interfaces;
-
 import Grafos.Grafo;
 import Grafos.Relacion;
 import Grafos.Vertice;
@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -67,8 +68,8 @@ public class practica extends javax.swing.JFrame {
                 añadir_relaActionPerformed(evt);
             }
         });
-        jPanel1.add(añadir_rela, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, -1, -1));
-        jPanel1.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 430, 170, -1));
+        jPanel1.add(añadir_rela, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 490, -1, -1));
+        jPanel1.add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 310, -1));
 
         eliminar_rela.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         eliminar_rela.setText("Eliminar Relacion");
@@ -77,15 +78,15 @@ public class practica extends javax.swing.JFrame {
                 eliminar_relaActionPerformed(evt);
             }
         });
-        jPanel1.add(eliminar_rela, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 500, 120, -1));
+        jPanel1.add(eliminar_rela, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 490, 140, -1));
 
         usuario1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usuario1ActionPerformed(evt);
             }
         });
-        jPanel1.add(usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 250, -1));
-        jPanel1.add(usuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 170, -1));
+        jPanel1.add(usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 190, -1));
+        jPanel1.add(usuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 190, -1));
 
         añadir_usuario1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         añadir_usuario1.setText("Añadir Usuario");
@@ -94,7 +95,7 @@ public class practica extends javax.swing.JFrame {
                 añadir_usuario1ActionPerformed(evt);
             }
         });
-        jPanel1.add(añadir_usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
+        jPanel1.add(añadir_usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
 
         eliminar_usuario1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         eliminar_usuario1.setText("Eliminar Usuario");
@@ -103,7 +104,7 @@ public class practica extends javax.swing.JFrame {
                 eliminar_usuario1ActionPerformed(evt);
             }
         });
-        jPanel1.add(eliminar_usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 140, -1));
+        jPanel1.add(eliminar_usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 140, -1));
 
         graficar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         graficar.setText("Graficar grafo");
@@ -112,7 +113,7 @@ public class practica extends javax.swing.JFrame {
                 graficarActionPerformed(evt);
             }
         });
-        jPanel1.add(graficar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, -1, -1));
+        jPanel1.add(graficar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, -1, -1));
 
         datos.setColumns(20);
         datos.setRows(5);
@@ -127,7 +128,7 @@ public class practica extends javax.swing.JFrame {
                 Buscar1ActionPerformed(evt);
             }
         });
-        jPanel1.add(Buscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
+        jPanel1.add(Buscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1140, 590));
 
@@ -164,11 +165,14 @@ public class practica extends javax.swing.JFrame {
 
     private void añadir_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_usuario1ActionPerformed
         // TODO add your handling code here:
+        String user = usuario.getText();
         if (!usuario.getText().contains("@")) {
-            usuario.setText("@" + usuario.getText());
+            this.usuario.setText("@" + user);
+            user = "@" + user;
         }
         graph.agregarVertice(usuario.getText());
         datos.setText(graph.imprimir());
+        escribirEnArchivo(graph, "ejemplo.txt");
     }//GEN-LAST:event_añadir_usuario1ActionPerformed
 
     private void eliminar_usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_usuario1ActionPerformed
@@ -177,8 +181,8 @@ public class practica extends javax.swing.JFrame {
             usuario.setText("@" + usuario.getText());
         }
         graph.eliminarVertice(usuario.getText());
-//        datos.setText(graph.imprimir());
-
+        datos.setText(graph.imprimir());
+        escribirEnArchivo(graph,"ejemplo.txt");
     }//GEN-LAST:event_eliminar_usuario1ActionPerformed
 
     private void añadir_relaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añadir_relaActionPerformed
@@ -190,7 +194,8 @@ public class practica extends javax.swing.JFrame {
             usuario1.setText("@" + usuario1.getText());
         }
         graph.agregaRelacion(usuario2.getText(), usuario1.getText());
-//        datos.setText(graph.imprimir());
+        datos.setText(graph.imprimir());
+        escribirEnArchivo(graph, "ejemplo.txt");
 
     }//GEN-LAST:event_añadir_relaActionPerformed
 
@@ -203,7 +208,8 @@ public class practica extends javax.swing.JFrame {
             usuario1.setText("@" + usuario1.getText());
         }
         graph.eliminarRelacion(usuario2.getText(), usuario1.getText());
-//        datos.setText(graph.imprimir());
+        datos.setText(graph.imprimir());
+        escribirEnArchivo(graph, "ejemplo.txt");
 
     }//GEN-LAST:event_eliminar_relaActionPerformed
 
@@ -218,6 +224,7 @@ public class practica extends javax.swing.JFrame {
             boolean comprobacion = false;
 
             try ( BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
+                JOptionPane.showMessageDialog(null, "El archivo txt se ha cargado correctamente.", "Alerta", JOptionPane.WARNING_MESSAGE);
                 String linea;
                 while ((linea = lector.readLine()) != null) {
                     if (linea.equals("usuarios")) {
@@ -265,16 +272,24 @@ public class practica extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

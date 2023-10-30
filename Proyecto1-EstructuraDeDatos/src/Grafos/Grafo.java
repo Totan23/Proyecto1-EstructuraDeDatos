@@ -94,6 +94,7 @@ public class Grafo {
             if ((rel.getVerticeA().equals(verticeA) && rel.getVerticeB().equals(verticeB))
                     || (rel.getVerticeA().equals(verticeB) && rel.getVerticeB().equals(verticeA))) {
                 ListaDeRelaciones.eliminar(rel);
+                ListaDeVertices.eliminar(rel);
                 System.out.println("Relación eliminada entre " + verticeA + " y " + verticeB);
                 return;
             }
@@ -137,6 +138,7 @@ public class Grafo {
         // Si todo está en orden, agrega la relación.
         Relacion edge = new Relacion(Vertice1, Vertice2);
         ListaDeAdyacencia.insertar_final(edge);
+        ListaDeVertices.insertar_final(edge);
 //        System.out.println("Relacion agregada de manera correcta");
     }
 

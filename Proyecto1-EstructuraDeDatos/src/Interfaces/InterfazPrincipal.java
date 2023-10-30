@@ -21,14 +21,14 @@ import javax.swing.JOptionPane;
  *
  * @author guzzo
  */
-public class practica extends javax.swing.JFrame {
+public class InterfazPrincipal extends javax.swing.JFrame {
 
     Grafo graph;
 
     /**
      * Creates new form practica
      */
-    public practica() {
+    public InterfazPrincipal() {
         initComponents();
         this.setVisible(true);
         graph = new Grafo();
@@ -288,27 +288,28 @@ public class practica extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(practica.class
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(practica.class
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(practica.class
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(practica.class
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new practica().setVisible(true);
+                new InterfazPrincipal().setVisible(true);
             }
         });
     }
